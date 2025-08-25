@@ -13,7 +13,7 @@ namespace BaseSystem
         
         private void Start()
         {
-            _scanSize = new Vector3(_zoner.XDistance, 2, _zoner.ZDistance);
+            _scanSize = new Vector3(_zoner.XDistance / 2, 2, _zoner.ZDistance / 2);
         }
 
         public List<Watermelon> Scan()
@@ -25,7 +25,7 @@ namespace BaseSystem
             {
                 if (hit.TryGetComponent(out Watermelon watermelon))
                 {
-                    if (watermelon.IsGrabbed == false)
+                    if (watermelon.WillTaken == false)
                     {
                         watermelons.Add(watermelon);
                     }

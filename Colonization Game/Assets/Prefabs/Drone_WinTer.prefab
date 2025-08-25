@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _grabbingDelta: 0.01
-  _grabbingDeltaMax: 1.5
+  _grabbingDeltaMax: 1.8
 --- !u!1 &4864549052939790319
 GameObject:
   m_ObjectHideFlags: 0

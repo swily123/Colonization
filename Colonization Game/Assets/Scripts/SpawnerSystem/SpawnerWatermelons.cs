@@ -76,13 +76,21 @@ namespace SpawnerSystem
         private void ActionOnGet(Watermelon watermelon)
         {
             watermelon.gameObject.SetActive(true);
+            watermelon.transform.SetParent(transform);
             watermelon.transform.localPosition = _zoner.GetRandomPoint();
             watermelon.ResetParameters();
+            watermelon.DespawnRequested += ReleaseWatermelon;
         }
 
         private void ActionOnRelease(Watermelon watermelon)
         {
             watermelon.gameObject.SetActive(false);
+            watermelon.DespawnRequested -= ReleaseWatermelon;
+        }
+
+        private void ReleaseWatermelon(Watermelon watermelon)
+        {
+            _pool.Release(watermelon);
         }
     }
 }

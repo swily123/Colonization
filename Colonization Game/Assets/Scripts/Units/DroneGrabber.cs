@@ -32,8 +32,6 @@ namespace Units
                 watermelon.transform.position = Vector3.MoveTowards(watermelon.transform.position, endPosition, _grabbingDelta);
                 yield return null;
             }
-            
-            Debug.Log("Drone grabbed");
         }
 
         public void Ungrab(Watermelon watermelon)

@@ -25,6 +25,7 @@ namespace Units
         public void GoToPoint(Watermelon watermelon)
         {
             _watermelonToGrab = watermelon;
+            _watermelonToGrab.Assign();
             Status = DroneMissionStatus.OnMission;
             _mover.SetPoint(watermelon.transform.position, OnArrivedAtPoint);
         }
