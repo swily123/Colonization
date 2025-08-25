@@ -11,7 +11,7 @@ namespace Units
         [SerializeField] private DroneAnimator _animator;
         [SerializeField] private DroneGrabber _grabber;
         
-        public DroneMissionStatus Status { get; private set; }
+        public bool IsOnMission { get; private set; }
         public event Action MissionCompleted;
         
         private Coroutine _coroutine;
@@ -25,14 +25,13 @@ namespace Units
         public void GoToPoint(Watermelon watermelon)
         {
             _watermelonToGrab = watermelon;
-            _watermelonToGrab.Assign();
-            Status = DroneMissionStatus.OnMission;
+            IsOnMission = true;
             _mover.SetPoint(watermelon.transform.position, OnArrivedAtPoint);
         }
 
         private void MissionComplete()
         {
-            Status = DroneMissionStatus.NoMission;
+            IsOnMission = false;
         }
 
         private IEnumerator WaitAnimationAndGoBase()
@@ -53,6 +52,7 @@ namespace Units
         private void OnArrivedAtBase()
         {
             _grabber.Ungrab(_watermelonToGrab);
+            _watermelonToGrab.Despawn();
             MissionComplete();
             MissionCompleted?.Invoke();
         }

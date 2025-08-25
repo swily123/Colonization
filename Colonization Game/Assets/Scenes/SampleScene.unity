@@ -354,7 +354,6 @@ GameObject:
   - component: {fileID: 243904864}
   - component: {fileID: 243904863}
   - component: {fileID: 243904868}
-  - component: {fileID: 243904866}
   - component: {fileID: 243904869}
   m_Layer: 0
   m_Name: Station
@@ -432,19 +431,6 @@ Transform:
   - {fileID: 1725888609}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
---- !u!114 &243904866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 243904862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 630a8a07ec5a4fdeb70bfa61cf7bbd4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _zoner: {fileID: 243904869}
 --- !u!114 &243904868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,7 +447,7 @@ MonoBehaviour:
   - {fileID: 193086133}
   - {fileID: 2061171987}
   - {fileID: 1467522882}
-  _baseLocator: {fileID: 243904866}
+  _resourceManager: {fileID: 243904869}
   _delay: 1
 --- !u!114 &243904869
 MonoBehaviour:
@@ -472,12 +458,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 243904862}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 319397a57ffb4437b9ef5cb72927f9fa, type: 3}
+  m_Script: {fileID: 11500000, guid: e87dc8b1c6f34952baeb5dce1c88ef4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorGizmos: {r: 1, g: 0, b: 0, a: 1}
-  _xDistance: 100
-  _zDistance: 100
+  _spawnerWatermelons: {fileID: 1903548020}
 --- !u!1 &551370655
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,8 +1334,8 @@ MonoBehaviour:
   _zoner: {fileID: 1903548019}
   _watermelon: {fileID: 4367492704215098377, guid: 517e976be9ac3ee41a961dd8bf728615, type: 3}
   _defaultCapacity: 0
-  _poolMaxSize: 20
-  _delay: 2
+  _poolMaxSize: 5
+  _delay: 3
 --- !u!1001 &2061171986
 PrefabInstance:
   m_ObjectHideFlags: 0

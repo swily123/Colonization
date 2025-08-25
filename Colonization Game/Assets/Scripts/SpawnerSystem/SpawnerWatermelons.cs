@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Units;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -12,7 +13,9 @@ namespace SpawnerSystem
         [SerializeField] private int _defaultCapacity;
         [SerializeField] private int _poolMaxSize;
         [SerializeField, Min(0)] private float _delay;
-        
+
+        public event Action<Watermelon> MelonSpawned;
+
         private Coroutine _coroutine;
         private ObjectPool<Watermelon> _pool;
 
@@ -38,7 +41,7 @@ namespace SpawnerSystem
             StopSpawning();
             _coroutine = StartCoroutine(Spawning());
         }
-        
+
         private void StopSpawning()
         {
             if (_coroutine != null)
@@ -46,18 +49,18 @@ namespace SpawnerSystem
                 StopCoroutine(_coroutine);
             }
         }
-        
+
         private IEnumerator Spawning()
         {
             WaitForSeconds delay = new WaitForSeconds(_delay);
-            
+
             while (enabled)
             {
                 GetWatermelon();
                 yield return delay;
             }
         }
-        
+
         private Watermelon Spawn()
         {
             Watermelon watermelon = Instantiate(_watermelon, transform, false);
@@ -72,14 +75,14 @@ namespace SpawnerSystem
                 _pool.Get();
             }
         }
-        
+
         private void ActionOnGet(Watermelon watermelon)
         {
             watermelon.gameObject.SetActive(true);
             watermelon.transform.SetParent(transform);
             watermelon.transform.localPosition = _zoner.GetRandomPoint();
-            watermelon.ResetParameters();
             watermelon.DespawnRequested += ReleaseWatermelon;
+            MelonSpawned?.Invoke(watermelon);
         }
 
         private void ActionOnRelease(Watermelon watermelon)

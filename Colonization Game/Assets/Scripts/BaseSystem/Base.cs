@@ -10,12 +10,12 @@ namespace BaseSystem
     public class Base : MonoBehaviour
     {
         [SerializeField] private List<Drone> _drones;
-        [SerializeField] private BaseLocator _baseLocator;
+        [SerializeField] private ResourceManager _resourceManager;
         [SerializeField] private float _delay;
-        
+
         private int _watermelonsCount;
         public event Action<int> WatermelonsChanged;
-        
+
         private void OnEnable()
         {
             foreach (Drone drone in _drones)
@@ -44,34 +44,26 @@ namespace BaseSystem
 
             while (enabled)
             {
-                SendDronesToMissions(_baseLocator.Scan());
+                SendDronesToMissions();
                 yield return wait;
             }
         }
 
-        private void SendDronesToMissions(List<Watermelon> watermelons)
+        private void SendDronesToMissions()
         {
-            foreach (Watermelon watermelon in watermelons)
+            Watermelon melon = _resourceManager.GetFreeWatermelon();
+            
+            if (TryGetDrone(out Drone drone) && melon !=null)
             {
-                if (TryGetDrone(out Drone drone))
-                {
-                    drone.GoToPoint(watermelon);
-                }
+                drone.GoToPoint(melon);
+                _resourceManager.MarkAsTaken(melon);
             }
         }
 
         private bool TryGetDrone(out Drone drone)
         {
-            drone = null;
-            List<Drone> activeDrones = _drones.Where(drone => drone.Status == DroneMissionStatus.NoMission).ToList();
-            bool haveActiveDrone = activeDrones.Count > 0;
-            
-            if (haveActiveDrone)
-            {
-                drone = activeDrones[0];
-            }
-            
-            return haveActiveDrone;
+            drone = _drones.FirstOrDefault(drone => drone.IsOnMission == false);
+            return drone is not null;
         }
 
         private void OnMissionComplete()
