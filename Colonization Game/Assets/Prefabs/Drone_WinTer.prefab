@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _light: {fileID: 6401290208318821327}
-  _delayAnimation: 2
+  _delayAnimation: 1.5
 --- !u!114 &5963151168929449324
 MonoBehaviour:
   m_ObjectHideFlags: 0
