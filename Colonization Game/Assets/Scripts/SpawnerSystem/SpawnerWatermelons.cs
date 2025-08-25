@@ -1,10 +1,11 @@
 ﻿using System.Collections;
+using Units;
 using UnityEngine;
 using UnityEngine.Pool;
 
 namespace SpawnerSystem
 {
-    public class Spawner : MonoBehaviour
+    public class SpawnerWatermelons : MonoBehaviour
     {
         [SerializeField] private Zoner _zoner;
         [SerializeField] private Watermelon _watermelon;
@@ -76,6 +77,7 @@ namespace SpawnerSystem
         {
             watermelon.gameObject.SetActive(true);
             watermelon.transform.localPosition = _zoner.GetRandomPoint();
+            watermelon.ResetParameters();
         }
 
         private void ActionOnRelease(Watermelon watermelon)

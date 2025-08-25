@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SpawnerSystem;
+using Units;
 using UnityEngine;
 
 namespace BaseSystem
@@ -24,7 +25,10 @@ namespace BaseSystem
             {
                 if (hit.TryGetComponent(out Watermelon watermelon))
                 {
-                    watermelons.Add(watermelon);
+                    if (watermelon.IsGrabbed == false)
+                    {
+                        watermelons.Add(watermelon);
+                    }
                 }
             }
             
