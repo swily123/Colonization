@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Units;
@@ -11,10 +10,9 @@ namespace BaseSystem
     {
         [SerializeField] private List<Drone> _drones;
         [SerializeField] private ResourceManager _resourceManager;
+        [SerializeField] private BaseStorage _storage;
         [SerializeField] private float _delay;
 
-        private int _watermelonsCount;
-        public event Action<int> WatermelonsChanged;
 
         private void OnEnable()
         {
@@ -35,7 +33,6 @@ namespace BaseSystem
         private void Start()
         {
             StartCoroutine(Scanning());
-            WatermelonsChanged?.Invoke(_watermelonsCount);
         }
 
         private IEnumerator Scanning()
@@ -68,8 +65,7 @@ namespace BaseSystem
 
         private void OnMissionComplete()
         {
-            _watermelonsCount++;
-            WatermelonsChanged?.Invoke(_watermelonsCount);
+            _storage.IncreaseCount();
         }
     }
 }

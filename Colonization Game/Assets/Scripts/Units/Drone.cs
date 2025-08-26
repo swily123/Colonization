@@ -26,7 +26,11 @@ namespace Units
         {
             _watermelonToGrab = watermelon;
             IsOnMission = true;
-            _mover.SetPoint(watermelon.transform.position, OnArrivedAtPoint);
+            
+            Vector3 watermelonPosition = watermelon.transform.position;
+            watermelonPosition.y = transform.position.y;
+            
+            _mover.SetPoint(watermelonPosition, OnArrivedAtPoint);
         }
 
         private void MissionComplete()

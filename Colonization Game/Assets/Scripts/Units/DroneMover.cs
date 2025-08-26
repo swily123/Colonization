@@ -28,20 +28,19 @@ namespace Units
         private IEnumerator ControllingMovement(Vector3 point, Action onArrive)
         {
             StopMoving();
-            _moveCoroutine = StartCoroutine(Moving());
+            _moveCoroutine = StartCoroutine(Moving(point));
 
-            yield return new WaitUntil(() => IsTouchPoint(point));
+            yield return _moveCoroutine;
 
             onArrive?.Invoke();
-            
             StopMoving();
         }
         
-        private IEnumerator Moving()
+        private IEnumerator Moving(Vector3 point)
         {
-            while (enabled)
+            while (IsTouchPoint(point) == false)
             {
-                transform.Translate(Vector3.forward * (Time.deltaTime * _speed));
+                transform.position = Vector3.MoveTowards(transform.position, point, _speed * Time.deltaTime);
                 
                 yield return null;
             }
@@ -56,7 +55,6 @@ namespace Units
             pointPosition.y = 0;
 
             float distance = (pointPosition - position).sqrMagnitude;
-
             bool isTouch = distance <= _minDistanceToPoint * _minDistanceToPoint;
             return isTouch;
         }
@@ -65,7 +63,6 @@ namespace Units
         {
             Vector3 direction = (point - transform.position).normalized;
             direction.y = 0;
-
             transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
         }
     }
