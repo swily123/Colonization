@@ -13,7 +13,6 @@ namespace BaseSystem
         [SerializeField] private BaseStorage _storage;
         [SerializeField] private float _delay;
 
-
         private void OnEnable()
         {
             foreach (Drone drone in _drones)
