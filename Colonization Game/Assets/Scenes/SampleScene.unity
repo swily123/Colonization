@@ -1357,8 +1357,8 @@ MonoBehaviour:
   _zoner: {fileID: 1903548019}
   _watermelon: {fileID: 4367492704215098377, guid: 517e976be9ac3ee41a961dd8bf728615, type: 3}
   _defaultCapacity: 0
-  _poolMaxSize: 5
-  _delay: 3
+  _poolMaxSize: 20
+  _delay: 2
 --- !u!1001 &2061171986
 PrefabInstance:
   m_ObjectHideFlags: 0

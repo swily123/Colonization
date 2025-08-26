@@ -1,5 +1,4 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace BaseSystem
@@ -18,6 +17,11 @@ namespace BaseSystem
         private void OnDisable()
         {
             _storage.CountChanged -= ChangeText;
+        }
+
+        private void Start()
+        {
+            ChangeText(0);
         }
 
         private void ChangeText(int count)
