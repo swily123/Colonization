@@ -9,7 +9,7 @@ namespace BaseSystem
     public class Base : MonoBehaviour
     {
         [SerializeField] private List<Drone> _drones;
-        [SerializeField] private ResourceManager _resourceManager;
+        [SerializeField] private ResourceProvider _resourceProvider;
         [SerializeField] private BaseStorage _storage;
         [SerializeField] private float _delay;
 
@@ -47,12 +47,12 @@ namespace BaseSystem
 
         private void SendDronesToMissions()
         {
-            Watermelon melon = _resourceManager.GetFreeWatermelon();
+            Watermelon melon = _resourceProvider.GetFreeWatermelon();
             
             if (TryGetDrone(out Drone drone) && melon !=null)
             {
                 drone.GoToPoint(melon);
-                _resourceManager.MarkAsTaken(melon);
+                _resourceProvider.MarkAsTaken(melon);
             }
         }
 

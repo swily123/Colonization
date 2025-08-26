@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace BaseSystem
 {
-    public class ResourceManager : MonoBehaviour
+    public class ResourceProvider : MonoBehaviour
     {
         [SerializeField] private SpawnerWatermelons _spawnerWatermelons;
         

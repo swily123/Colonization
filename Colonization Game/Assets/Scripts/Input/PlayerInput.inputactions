@@ -49,6 +49,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Station",
+            "id": "174f0f34-3082-4e45-babd-0056bf7e8a5b",
+            "actions": [
+                {
+                    "name": "PlaceFlag",
+                    "type": "Button",
+                    "id": "bcad5fda-143d-4358-8aef-fdf5e1f534f8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bf367ad5-67d2-4ec8-8349-daa38447eca1",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard and Mouse",
+                    "action": "PlaceFlag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
