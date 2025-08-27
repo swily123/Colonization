@@ -1,4 +1,4 @@
-﻿using Input;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,24 +7,41 @@ namespace FlagSystem
     [RequireComponent(typeof(PlayerInput))]
     public class FlagPlacer : MonoBehaviour
     {
-        [SerializeField] private InputModeSwitcher _inputModeSwitcher;
         [SerializeField] private MouseRaycaster _mouseRaycaster;
+        [SerializeField] private FlagPreview _flagPreviewPrefab;
 
-        private void OnEnable()
+        private void Start()
         {
-            _inputModeSwitcher.SetMapActive(InputMode.Station, true);
+            _flagPreviewPrefab.gameObject.SetActive(false);
         }
-
-        private void OnDisable()
-        {
-            _inputModeSwitcher.SetMapActive(InputMode.Station, false);
-        }
-
+        
         public void OnPlaceFlag()
         {
             if (_mouseRaycaster.TryGetBase())
             {
-                Debug.Log("Placing Flag");
+                _flagPreviewPrefab.gameObject.SetActive(true);
+                StartCoroutine(PlacementFlag());
+            }
+        }
+
+        private IEnumerator PlacementFlag()
+        {
+            while (enabled)
+            {
+                if (_mouseRaycaster.TryGetCollisionPointGround(out Vector3 flagPosition))
+                {
+                    _flagPreviewPrefab.transform.position = flagPosition;
+                }
+                
+                yield return null;
+            }
+        }
+
+        private void Check()
+        {
+            if (_flagPreviewPrefab.IsClear())
+            {
+                
             }
         }
     }

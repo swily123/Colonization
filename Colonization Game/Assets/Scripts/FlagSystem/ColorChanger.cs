@@ -41,7 +41,7 @@ namespace FlagSystem
         }
 
         [ContextMenu("Restore Colors")]
-        public void RestoreOriginalColor()
+        public void RestoreOriginalColors()
         {
             for (int i = 0; i < _renderers.Length; i++)
             {

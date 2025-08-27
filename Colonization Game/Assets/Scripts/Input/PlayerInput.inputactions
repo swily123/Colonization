@@ -3,13 +3,22 @@
     "name": "PlayerInput",
     "maps": [
         {
-            "name": "Camera",
+            "name": "PlayerInput",
             "id": "e297add2-f384-4f30-978b-9f2d144b07c4",
             "actions": [
                 {
                     "name": "Moving",
                     "type": "Button",
                     "id": "28c34d03-0413-4c32-a1e9-f91e192dd07f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlaceFlag",
+                    "type": "Button",
+                    "id": "93055373-7de6-4879-a23f-94b31b84ff5a",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -39,40 +48,23 @@
                 },
                 {
                     "name": "",
+                    "id": "b82027d2-29f3-4a55-b48e-ccd31712e61e",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard and Mouse",
+                    "action": "PlaceFlag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "cec7ec8c-1e08-4094-87e8-773b3583b65e",
                     "path": "<Mouse>/rightButton",
                     "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": ";Keyboard and Mouse",
                     "action": "StopMoving",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Station",
-            "id": "174f0f34-3082-4e45-babd-0056bf7e8a5b",
-            "actions": [
-                {
-                    "name": "PlaceFlag",
-                    "type": "Button",
-                    "id": "bcad5fda-143d-4358-8aef-fdf5e1f534f8",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "bf367ad5-67d2-4ec8-8349-daa38447eca1",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard and Mouse",
-                    "action": "PlaceFlag",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

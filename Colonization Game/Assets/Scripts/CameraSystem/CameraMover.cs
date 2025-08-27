@@ -1,5 +1,4 @@
 using System.Collections;
-using Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,21 +8,10 @@ namespace CameraSystem
     
     public class CameraMover : MonoBehaviour
     {
-        [SerializeField] private InputModeSwitcher _inputModeSwitcher;
         [SerializeField] private GameObject _target;
         [SerializeField] private float _speed;
         
         private Coroutine _coroutine;
-
-        private void OnEnable()
-        {
-            _inputModeSwitcher.SetMapActive(InputMode.Camera, true);
-        }
-
-        private void OnDisable()
-        {
-            _inputModeSwitcher.SetMapActive(InputMode.Camera, false);
-        }
 
         public void OnMoving()
         {
