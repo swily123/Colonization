@@ -5,15 +5,19 @@ namespace BaseSystem
 {
     public class BaseStorage : MonoBehaviour
     {
-        [SerializeField] private Base _base;
-        
+        public event Action<int> ViewRequested;
+
         private int _watermelonsCount;
-        public event Action<int> CountChanged;
-        
+
         public void IncreaseCount()
         {
             _watermelonsCount++;
-            CountChanged?.Invoke(_watermelonsCount);
+            ShowInfo();
+        }
+
+        public void ShowInfo()
+        {
+            ViewRequested?.Invoke(_watermelonsCount);
         }
     }
 }

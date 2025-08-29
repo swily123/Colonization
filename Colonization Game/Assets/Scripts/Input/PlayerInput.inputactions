@@ -3,7 +3,7 @@
     "name": "PlayerInput",
     "maps": [
         {
-            "name": "PlayerInput",
+            "name": "Player",
             "id": "e297add2-f384-4f30-978b-9f2d144b07c4",
             "actions": [
                 {
@@ -16,7 +16,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "PlaceFlag",
+                    "name": "ShowBaseInfo",
                     "type": "Button",
                     "id": "93055373-7de6-4879-a23f-94b31b84ff5a",
                     "expectedControlType": "",
@@ -28,6 +28,15 @@
                     "name": "StopMoving",
                     "type": "Button",
                     "id": "7141b860-a0cc-4d82-a2be-670c08bd8d4e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlaceFlag",
+                    "type": "Button",
+                    "id": "88b3c67b-14b2-47a2-8fbf-b91ebae3c7cf",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -53,7 +62,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard and Mouse",
-                    "action": "PlaceFlag",
+                    "action": "ShowBaseInfo",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -65,6 +74,17 @@
                     "processors": "",
                     "groups": ";Keyboard and Mouse",
                     "action": "StopMoving",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "056031eb-52b6-451b-b6c9-0407cd2cc401",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlaceFlag",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

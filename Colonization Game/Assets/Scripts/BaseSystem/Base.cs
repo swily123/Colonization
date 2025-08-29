@@ -13,6 +13,10 @@ namespace BaseSystem
         [SerializeField] private BaseStorage _storage;
         [SerializeField] private float _delay;
 
+        public bool HaveInheritor { get; private set; }
+
+        private BasePriority _basePriority;
+
         private void OnEnable()
         {
             foreach (Drone drone in _drones)
@@ -34,6 +38,16 @@ namespace BaseSystem
             StartCoroutine(Scanning());
         }
 
+        public void ShowStorage()
+        {
+            _storage.ShowInfo();
+        }
+        
+        public void SetInheritor()
+        {
+            HaveInheritor = true;
+        }
+        
         private IEnumerator Scanning()
         {
             WaitForSeconds wait = new WaitForSeconds(_delay);

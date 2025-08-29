@@ -7,20 +7,19 @@ namespace FlagSystem
     {
         [SerializeField] private ColorChanger _colorChanger;
         [SerializeField] private LayerMask _obstacleLayer;
-
+        [SerializeField] private Vector3 _triggerSize;
+        
         private readonly List<Collider> _obstaclesInRadius = new();
 
-        private void Update()
+        private void OnDrawGizmos()
         {
-            if (transform.position != Vector3.zero)
-            {
-                CheckForObstacles();
-            }
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(transform.position + Vector3.up * _triggerSize.y/2, _triggerSize);
         }
 
-        private void CheckForObstacles()
+        public void CheckForObstacles()
         {
-            Collider[] hits = Physics.OverlapSphere(transform.position, 3, _obstacleLayer);
+            Collider[] hits = Physics.OverlapBox(transform.position + Vector3.up * _triggerSize.y/2, _triggerSize, Quaternion.identity, _obstacleLayer);
             
             _obstaclesInRadius.Clear();
             
@@ -30,7 +29,6 @@ namespace FlagSystem
                     continue;
 
                 _obstaclesInRadius.Add(col);
-                Debug.Log($"Препятствие рядом: {col.name}");
             }
             
             ChangeColor();
@@ -38,14 +36,7 @@ namespace FlagSystem
 
         private void ChangeColor()
         {
-            if (_obstaclesInRadius.Count > 0)
-            {
-                _colorChanger.MakeRed();
-            }
-            else
-            {
-                _colorChanger.RestoreOriginalColors();
-            }
+            _colorChanger.SetAllColor(_obstaclesInRadius.Count > 0 ? Color.red : Color.white);
         }
 
         public bool IsClear()

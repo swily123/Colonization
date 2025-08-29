@@ -5,25 +5,36 @@ namespace BaseSystem
 {
     public class BaseStorageViewer : MonoBehaviour
     {
-        [SerializeField] private BaseStorage _storage;
         [SerializeField] private string _mainText;
         [SerializeField] private TextMeshProUGUI _textField;
-
-        private void OnEnable()
-        {
-            _storage.CountChanged += ChangeText;
-        }
+        
+        private BaseStorage _currentStorage;
 
         private void OnDisable()
         {
-            _storage.CountChanged -= ChangeText;
+            StopShowingInfo();
         }
-
-        private void Start()
+        
+        public void SetStorage(BaseStorage storage)
         {
-            ChangeText(0);
+            _currentStorage = storage;
+            StartShowingInfo();
         }
-
+        
+        public void StopShowingInfo()
+        {
+            if (_currentStorage != null)
+            {
+                _currentStorage.ViewRequested -= ChangeText;
+            }
+        }
+        
+        private void StartShowingInfo()
+        {
+            StopShowingInfo();
+            _currentStorage.ViewRequested += ChangeText;
+        }
+        
         private void ChangeText(int count)
         {
             _textField.text = _mainText + count.ToString();

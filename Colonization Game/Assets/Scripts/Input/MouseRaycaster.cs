@@ -2,22 +2,24 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace FlagSystem
+namespace Input
 {
     public class MouseRaycaster : MonoBehaviour
     {
         [SerializeField] private LayerMask _ground; 
         [SerializeField] private Camera _camera;
 
-        public bool TryGetBase()
+        public bool TryGetBase(out Base clickedBase)
         {
+            clickedBase = null;
             bool isSuccessful = false;
+            
             Vector2 mousePosition = Mouse.current.position.ReadValue();
             Ray ray = _camera.ScreenPointToRay(mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
             {
-                if (hit.transform.TryGetComponent<Base>(out _))
+                if (hit.transform.TryGetComponent(out clickedBase))
                 {
                     isSuccessful = true;
                 }
