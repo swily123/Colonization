@@ -8,7 +8,7 @@ namespace BaseSystem
         public event Action<int> ViewRequested;
 
         private int _watermelonsCount;
-
+        
         public void IncreaseCount()
         {
             _watermelonsCount++;
@@ -18,6 +18,24 @@ namespace BaseSystem
         public void ShowInfo()
         {
             ViewRequested?.Invoke(_watermelonsCount);
+        }
+        
+        public bool TryDecreaseCount(int value)
+        {
+            bool isEnough = IsEnough(value);
+            
+            if (isEnough)
+            {
+                _watermelonsCount -= value;
+                ViewRequested?.Invoke(_watermelonsCount);
+            }
+            
+            return isEnough;
+        }
+        
+        private bool IsEnough(int value)
+        {
+            return _watermelonsCount >= value;
         }
     }
 }

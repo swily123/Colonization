@@ -14,7 +14,7 @@ namespace FlagSystem
         [SerializeField] private FlagPreview _flagPreviewPrefab;
         [SerializeField] private Flag _originalFlag;
         
-        public event Action FlagPlaced;
+        public event Action<Vector3> FlagPlaced;
         
         private PlayerInput _playerInput;
         private Coroutine _coroutine;
@@ -99,7 +99,7 @@ namespace FlagSystem
                 {
                     Instantiate(_originalFlag, flagPosition, Quaternion.identity);
                     StopPlacing();
-                    FlagPlaced?.Invoke();
+                    FlagPlaced?.Invoke(flagPosition);
                 }
             }
         }

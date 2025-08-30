@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace BaseSystem
 {
-    public class BaseFlagSystem : MonoBehaviour
+    public class BaseFlagSystem : MonoBehaviour // TODO разбить на разные ответственности скрипты
     {
         [Header("UI Elements")]
         [SerializeField] private GameObject _baseInfo;
@@ -21,7 +21,6 @@ namespace BaseSystem
         private void OnEnable()
         {
             _exitButton.onClick.AddListener(ExitFlagSystem);
-            //_exitButton.
         }
 
         private void OnDisable()
@@ -46,7 +45,7 @@ namespace BaseSystem
             
             _currentBase.ShowStorage();
             
-            if (_currentBase.HaveInheritor)
+            if (_currentBase.HaveInheritor) // TODO перестановка флага
             {
                 _setFlagButton.onClick.RemoveListener(SetFlag);
                 _setFlagButton.gameObject.SetActive(false);
@@ -66,10 +65,10 @@ namespace BaseSystem
             _flagPlacer.FlagPlaced += OnFlagPlaced;
         }
 
-        private void OnFlagPlaced()
+        private void OnFlagPlaced(Vector3 flagPosition)
         {
             _flagPlacer.FlagPlaced -= OnFlagPlaced;
-            _currentBase.SetInheritor();
+            _currentBase.SetInheritor(flagPosition);
             ExitFlagSystem();
         }
         

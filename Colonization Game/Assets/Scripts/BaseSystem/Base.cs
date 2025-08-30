@@ -6,24 +6,21 @@ using UnityEngine;
 
 namespace BaseSystem
 {
-    public class Base : MonoBehaviour
+    public class Base : MonoBehaviour // TODO разбить на разные ответственности скрипты
     {
-        [SerializeField] private List<Drone> _drones;
+        [SerializeField] private BaseDroneSpawner _droneSpawner;
         [SerializeField] private ResourceProvider _resourceProvider;
         [SerializeField] private BaseStorage _storage;
         [SerializeField] private float _delay;
 
         public bool HaveInheritor { get; private set; }
 
-        private BasePriority _basePriority;
+        private const int InheritorCost = 5;
 
-        private void OnEnable()
-        {
-            foreach (Drone drone in _drones)
-            {
-                drone.MissionCompleted += OnMissionComplete;
-            }
-        }
+        private readonly int _startDronesCount = 3;
+        private readonly List<Drone> _drones = new();
+        private BasePriority _basePriority = BasePriority.ProduceDrone;
+        private Vector3 _baseInheritorPosition = Vector3.zero;
 
         private void OnDisable()
         {
@@ -35,6 +32,11 @@ namespace BaseSystem
 
         private void Start()
         {
+            for (int i = 0; i < _startDronesCount; i++)
+            {
+                OnSpawnDrone();
+            }
+
             StartCoroutine(Scanning());
         }
 
@@ -42,12 +44,17 @@ namespace BaseSystem
         {
             _storage.ShowInfo();
         }
-        
-        public void SetInheritor()
+
+        public void SetInheritor(Vector3 inheritorPosition)
         {
-            HaveInheritor = true;
+            if (TryBuyStation() == false)
+            {
+                _baseInheritorPosition = inheritorPosition;
+                _basePriority = BasePriority.SetInheritor;
+                HaveInheritor = true;
+            }
         }
-        
+
         private IEnumerator Scanning()
         {
             WaitForSeconds wait = new WaitForSeconds(_delay);
@@ -62,23 +69,68 @@ namespace BaseSystem
         private void SendDronesToMissions()
         {
             Watermelon melon = _resourceProvider.GetFreeWatermelon();
-            
-            if (TryGetDrone(out Drone drone) && melon !=null)
+
+            if (TryGetDrone(out Drone drone) && melon is not null)
             {
-                drone.GoToPoint(melon);
+                drone.GoToWatermelon(melon);
                 _resourceProvider.MarkAsTaken(melon);
             }
         }
 
         private bool TryGetDrone(out Drone drone)
         {
+            drone = null;
             drone = _drones.FirstOrDefault(drone => drone.IsOnMission == false);
+
             return drone is not null;
         }
 
         private void OnMissionComplete()
         {
             _storage.IncreaseCount();
+
+            switch (_basePriority)
+            {
+                case BasePriority.ProduceDrone:
+                {
+                    if (_storage.TryDecreaseCount(_droneSpawner.DroneCost))
+                    {
+                        OnSpawnDrone();
+                    }
+
+                    break;
+                }
+
+                case BasePriority.SetInheritor:
+                {
+                    TryBuyStation();
+                    break;
+                }
+            }
+        }
+
+        private bool TryBuyStation()
+        {
+            bool isBought = false;
+
+            if (_storage.TryDecreaseCount(InheritorCost))
+            {
+                if (TryGetDrone(out Drone drone))
+                {
+                    _basePriority = BasePriority.ProduceDrone;
+                    isBought = true;
+                    drone.GoToPoint(_baseInheritorPosition);
+                }
+            }
+
+            return isBought;
+        }
+
+        private void OnSpawnDrone()
+        {
+            Drone drone = _droneSpawner.SpawnDrone();
+            _drones.Add(drone);
+            drone.MissionCompleted += OnMissionComplete;
         }
     }
 }

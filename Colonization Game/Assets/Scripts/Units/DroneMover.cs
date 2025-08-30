@@ -10,40 +10,49 @@ namespace Units
         [SerializeField] private float _minDistanceToPoint;
 
         private Coroutine _moveCoroutine;
+        private Coroutine _controlCoroutine;
         
         public void SetPoint(Vector3 point, Action onArrive)
         {
+            Debug.Log("set point");
             LookAtPoint(point);
-            StartCoroutine(ControllingMovement(point, onArrive));
+            StopSelfCoroutine(_controlCoroutine);
+            _controlCoroutine = StartCoroutine(ControllingMovement(point, onArrive));
         }
 
-        private void StopMoving()
+        private void StopSelfCoroutine(Coroutine coroutine)
         {
-            if (_moveCoroutine != null)
+            if (coroutine != null)
             {
-                StopCoroutine(_moveCoroutine);
+                StopCoroutine(coroutine);
             }
         }
 
         private IEnumerator ControllingMovement(Vector3 point, Action onArrive)
         {
-            StopMoving();
+            Debug.Log("control point");
+            StopSelfCoroutine(_moveCoroutine);
             _moveCoroutine = StartCoroutine(Moving(point));
 
             yield return _moveCoroutine;
-
             onArrive?.Invoke();
-            StopMoving();
+            Debug.Log("stop control moving");
+            StopSelfCoroutine(_moveCoroutine);
         }
         
         private IEnumerator Moving(Vector3 point)
         {
+            Debug.Log("start moving");
+            
             while (IsTouchPoint(point) == false)
             {
+                Debug.Log("moving");
                 transform.position = Vector3.MoveTowards(transform.position, point, _speed * Time.deltaTime);
                 
                 yield return null;
             }
+            
+            Debug.Log("no moving");
         }
         
         private bool IsTouchPoint(Vector3 point)

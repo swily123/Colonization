@@ -22,7 +22,7 @@ namespace BaseSystem
         {
             _spawnerWatermelons.MelonSpawned -= RegisterWatermelon;
         }
-
+        
         public Watermelon GetFreeWatermelon()
         {
             return _allWatermelons.Except(_takenWatermelons).FirstOrDefault();

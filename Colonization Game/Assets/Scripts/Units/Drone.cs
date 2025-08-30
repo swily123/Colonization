@@ -6,7 +6,6 @@ namespace Units
 {
     public class Drone : MonoBehaviour
     {
-        [SerializeField] private Transform _basePosition;
         [SerializeField] private DroneMover _mover;
         [SerializeField] private DroneAnimator _animator;
         [SerializeField] private DroneGrabber _grabber;
@@ -14,51 +13,69 @@ namespace Units
         public bool IsOnMission { get; private set; }
         public event Action MissionCompleted;
         
-        private Coroutine _coroutine;
+        private Coroutine _watermelonCoroutine;
+        private Coroutine _buildCoroutine;
         private Watermelon _watermelonToGrab;
-        
+        private Vector3 _basePosition;
+
         private void Start()
         {
-            MissionComplete();
+            _basePosition = transform.position;
         }
 
-        public void GoToPoint(Watermelon watermelon)
+        public void GoToWatermelon(Watermelon watermelon)
         {
             _watermelonToGrab = watermelon;
             IsOnMission = true;
             
-            Vector3 watermelonPosition = watermelon.transform.position;
+            Vector3 watermelonPosition = _watermelonToGrab.transform.position;
+            Debug.Log(watermelonPosition + "watermelon");
             watermelonPosition.y = transform.position.y;
             
-            _mover.SetPoint(watermelonPosition, OnArrivedAtPoint);
+            _mover.SetPoint(watermelonPosition, OnArrivedAtWatermelon);
         }
 
-        private void MissionComplete()
+        public void GoToPoint(Vector3 point)
         {
-            IsOnMission = false;
+            Debug.Log("Going to the point");
+            IsOnMission = true;
+            //point.y = transform.position.y;
+            _mover.SetPoint(point, OnArrivedAtPoint);
         }
-
-        private IEnumerator WaitAnimationAndGoBase()
+        
+        private IEnumerator WaitAnimationAndGoBase(Coroutine actionCoroutine)
         {
-            yield return _animator.SetGrabAnimation();
-            _mover.SetPoint(_basePosition.position, OnArrivedAtBase);
+            yield return actionCoroutine;
+            _mover.SetPoint(_basePosition, OnArrivedAtBase);
         }
         
         private void OnArrivedAtPoint()
         {
-            if (_coroutine != null)
-                StopCoroutine(_coroutine);
-            
+            StopActionCoroutine(_buildCoroutine);
+            _buildCoroutine = StartCoroutine(WaitAnimationAndGoBase(_animator.SetBuildAnimation()));
+        }
+        
+        private void OnArrivedAtWatermelon()
+        {
+            StopActionCoroutine(_watermelonCoroutine);
             _grabber.Grab(_watermelonToGrab);
-            _coroutine = StartCoroutine(WaitAnimationAndGoBase());
+            _watermelonCoroutine = StartCoroutine(WaitAnimationAndGoBase(_animator.SetGrabAnimation()));
         }
         
         private void OnArrivedAtBase()
         {
             _grabber.Ungrab(_watermelonToGrab);
             _watermelonToGrab.Despawn();
-            MissionComplete();
+            IsOnMission = false;
             MissionCompleted?.Invoke();
+        }
+        
+        private void StopActionCoroutine(Coroutine coroutine)
+        {
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+            }
         }
     }
 }
